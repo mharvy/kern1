@@ -1,8 +1,9 @@
 GCC_FLAGS = -I src/intf -ffreestanding -mcmodel=large -mno-red-zone -mno-sse -mno-sse2
-#mno-mmx
 LD_FLAGS = -ffreestanding -nostdlib -lgcc -n
 GCC_PATH = ../cross-compiler/opt/cross/bin/x86_64-elf-g++
 LD_PATH = ../cross-compiler/opt/cross/bin/x86_64-elf-g++
+x86_64_ISO = ./dist/x86_64/kernel.iso
+x86_64_BIN = ./dist/x86_64/kernel.bin
 
 # *** KERNEL ***
 kernel_src_files := $(shell find src/impl/kernel -name *.cpp)
@@ -29,11 +30,21 @@ $(x86_64_asm_obj_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 	mkdir -p $(dir $@) && \
 	nasm -f elf64 $(patsubst build/x86_64/%.o, src/impl/x86_64/%.asm, $@) -o $@
 
-.PHONY: build-x86_64
-build-x86_64: $(kernel_obj_files) $(x86_64_obj_files)
+$(x86_64_BIN): $(kernel_obj_files) $(x86_64_obj_files)
 	mkdir -p dist/x86_64 && \
 	$(LD_PATH) $(LD_FLAGS) -o dist/x86_64/kernel.bin -T targets/x86_64/link.ld $(kernel_obj_files) $(x86_64_obj_files) && \
-	cp dist/x86_64/kernel.bin targets/x86_64/iso/boot/kernel.bin && \
-	grub-mkrescue /usr/lib/grub/i386-pc -o dist/x86_64/kernel.iso targets/x86_64/iso
+	cp $(x86_64_BIN) targets/x86_64/iso/boot/kernel.bin 
 
-	
+$(x86_64_ISO): $(x86_64_BIN)
+	grub-mkrescue /usr/lib/grub/i386-pc -o $(x86_64_ISO) targets/x86_64/iso 
+
+.PHONY: build-x86_64
+build-x86_64: $(x86_64_ISO)
+
+.PHONY: run-x86_64
+run-x86_64: $(x86_64_ISO)
+	qemu-system-x86_64 -cdrom $(x86_64_ISO)
+
+.PHONY: clean
+clean:
+	rm -r build dist
