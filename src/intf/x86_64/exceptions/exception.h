@@ -15,16 +15,7 @@ void exception() {                                  \
 }                                                   \
 
 extern void * exceptions[];
-char * exception_messages[NUM_EXCEPTIONS] = {
-    "Divide by Zero", "Debug", "NMI", "Breakpoint", "Overflow", 
-    "Bound Range Exceeded", "Invalid Opcode", "Device Not Available",
-    "Double Fault", "Coprocessor Segment Overrun", "Invalid TSS", 
-    "Segment Not Present", "Stack Fault", "General Protection", 
-    "Page-Fault", nullptr, "x87 FPU Floating-Point Error", "Aligment Check", 
-    "Machine Check", "SIMD Floating Point Error", "Virtualization", 
-    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, 
-    nullptr, nullptr, "Security"
-};
+extern char * exception_messages[];
 
 EXCEPTION_DECLARE(divide_by_zero);
 EXCEPTION_DECLARE(debug);

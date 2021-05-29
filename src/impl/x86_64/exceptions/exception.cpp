@@ -1,6 +1,6 @@
 #include "x86_64/exceptions/exception.h"
 #include "x86_64/print.h"
-#include "include/strings.h"
+#include "strings.h"
 
 void * exceptions[NUM_EXCEPTIONS] = {
     (void *)&divide_by_zero,
@@ -35,6 +35,17 @@ void * exceptions[NUM_EXCEPTIONS] = {
     (void *)NULL,
     (void *)&security_exception,
     (void *)NULL,
+};
+
+char * exception_messages[NUM_EXCEPTIONS] = {
+    "Divide by Zero", "Debug", "NMI", "Breakpoint", "Overflow", 
+    "Bound Range Exceeded", "Invalid Opcode", "Device Not Available",
+    "Double Fault", "Coprocessor Segment Overrun", "Invalid TSS", 
+    "Segment Not Present", "Stack Fault", "General Protection", 
+    "Page-Fault", nullptr, "x87 FPU Floating-Point Error", "Aligment Check", 
+    "Machine Check", "SIMD Floating Point Error", "Virtualization", 
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, 
+    nullptr, nullptr, "Security"
 };
 
 // Handlers
