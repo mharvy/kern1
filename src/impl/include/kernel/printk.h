@@ -1,7 +1,11 @@
 #pragma once
 
-static inline __printf(1, 2) __cold
+#include "vga/kputc.h"
+
 int printk(const char *s, ...) {
-    return 0;
+    const char * c = s;
+    while (*c != '\0')
+        kputc(*(c++));
+    kputc('\n');
 }
 

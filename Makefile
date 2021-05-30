@@ -1,7 +1,11 @@
-GCC_FLAGS = -I src/intf -I src/impl/include -ffreestanding -mcmodel=large -mno-red-zone -mno-sse -mno-sse2 -g
+ARCH = x86_64
+GCC_FLAGS = -I ./src/intf -I ./src/impl/include \
+	-I ./src/impl/$(ARCH)/include -ffreestanding \
+    -mcmodel=large -mno-red-zone -mno-sse -mno-sse2 \
+	-g
 LD_FLAGS = -ffreestanding -nostdlib -lgcc -n -g
-GCC_PATH = ../cross-compiler/opt/cross/bin/x86_64-elf-g++
-LD_PATH = ../cross-compiler/opt/cross/bin/x86_64-elf-g++
+GCC_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++
+LD_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++
 x86_64_ISO = ./dist/x86_64/kernel.iso
 x86_64_BIN = ./dist/x86_64/kernel.bin
 x86_64_ELF = ./dist/x86_64/kernel.elf
@@ -31,6 +35,8 @@ $(include_obj_files): build/include/%.o : src/impl/include/%.cpp
 	$(GCC_PATH) $(GCC_FLAGS) -c $(patsubst build/include/%.o, src/impl/include/%.cpp, $@) -o $@
 
 # *** x86_64 ***
+x86_64_GCC_FLAGS = -I src/impl/x86_64/include
+
 x86_64_cpp_src_files := $(shell find src/impl/x86_64 -name *.cpp)
 x86_64_cpp_obj_files := $(patsubst src/impl/x86_64/%.cpp, build/x86_64/%.o, $(x86_64_cpp_src_files))
 
@@ -41,7 +47,7 @@ x86_64_obj_files := $(x86_64_cpp_obj_files) $(x86_64_asm_obj_files)
 
 $(x86_64_cpp_obj_files): build/x86_64/%.o : src/impl/x86_64/%.cpp
 	mkdir -p $(dir $@) && \
-	$(GCC_PATH) $(GCC_FLAGS) -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
+	$(GCC_PATH) $(x86_64_GCC_FLAGS) $(GCC_FLAGS) -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
 
 $(x86_64_asm_obj_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 	mkdir -p $(dir $@) && \
@@ -60,29 +66,18 @@ $(x86_64_ELF): $(kernel_obj_files) $(driver_obj_files) $(include_obj_files) $(x8
 $(x86_64_ISO): $(x86_64_BIN)
 	grub-mkrescue /usr/lib/grub/i386-pc -o $(x86_64_ISO) targets/x86_64/iso 
 
-.PHONY: build-x86_64
-build-x86_64: $(x86_64_ISO)
+.PHONY: build
+build: $(x86_64_ISO)
 
-.PHONY: run-x86_64
-run-x86_64: $(x86_64_ISO)
+.PHONY: run
+run: $(x86_64_ISO)
 	qemu-system-x86_64 -cdrom $(x86_64_ISO)
 
-.PHONY: debug-x86_64
-debug-x86_64: $(x86_64_ELF) $(x86_64_ISO)
-	#qemu-system-x86_64 -s -S -kernel $(x86_64_ELF) -hda $(x86_64_ISO) -machine type=pc-i440fx-3.1
+.PHONY: debug
+debug: $(x86_64_ELF) $(x86_64_ISO)
 	qemu-system-x86_64 -s -S -cdrom $(x86_64_ISO)
 
 .PHONY: clean
 clean:
 	rm -r build dist
-
-
-
-
-
-
-
-
-
-
 

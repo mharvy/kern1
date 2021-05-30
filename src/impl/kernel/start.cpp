@@ -1,20 +1,19 @@
 #include "print.h"
 #include "x86_64/interrupts/idt.h"
+#include "kernel/printk.h"
 
 IDT idt;
 
 extern "C" void kernel_start() {
     int testing;
 
-    print_clear();
-    print_set_color(PRINT_COLOR_WHITE, PRINT_COLOR_BLUE);
-    char * str = "Starting Kernel 1";
-    print_str(str);
-    //printk(str);
+    printk("Starting Kernel 1");
+    printk("This should be on a new line");
+    printk("SO SHOULD THIS!");
+    printk("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 
     idt = IDT();
     idt.init();
-    testing = 8 / 0;
     return;
 }
 
