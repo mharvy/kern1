@@ -12,22 +12,23 @@ extern "C" void kernel_start() {
 
     printk("Starting Kernel 1");
 
-    printk("Initializing IDT...");
+    printk("Initializing IDT... ");
     idt = IDT();
     idt.init();
-    printk("Done");
+    printk("Done\n");
 
-    printk("Initializing PIC...");
+    printk("Initializing PIC... ");
     pic = PIC();
     pic.init();
-    printk("Done");
+    printk("Done\n");
 
-    printk("Initializing Key Board...");
+    printk("Initializing Key Board... ");
+    main_ps2keyboard = PS2Keyboard();
     main_ps2keyboard.init();
-    printk("Done");
+    printk("Done\n");
 
-    uint16_t irr = pic.get_irr();
-    uint16_t isr = pic.get_isr();
+    uint16_t irr = pic.get_IRR();
+    uint16_t isr = pic.get_ISR();
 
     asm volatile (
             "sti"
@@ -35,13 +36,12 @@ extern "C" void kernel_start() {
             :
             : "memory", "cc"
     );
-    printk("Interrupts enabled");
+    printk("Interrupts enabled\n");
 
     bool a = pic.is_enabled();
 
-    irr = pic.get_irr();
-    isr = pic.get_isr();
-
+    irr = pic.get_IRR();
+    isr = pic.get_ISR();
 
     while (1) {}
 

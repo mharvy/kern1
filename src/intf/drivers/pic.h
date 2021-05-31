@@ -32,16 +32,16 @@ class PIC {
 private:
     uint8_t offset1;
     uint8_t offset2;
-    uint16_t get_irq_reg(uint8_t ocw3);
+    uint16_t get_IRQ_reg(uint8_t ocw3);
 public:
     PIC();
     PIC(uint8_t offset1, uint8_t offset2);
     void init();
-    void enable_irq(uint8_t irq);
-    void disable_irq(uint8_t irq);
+    void enable_IRQ(uint8_t irq);
+    void disable_IRQ(uint8_t irq);
     void send_EOI(uint8_t irq);
-    uint16_t get_irr();
-    uint16_t get_isr();
+    uint16_t get_IRR();
+    uint16_t get_ISR();
     bool is_enabled();
 };
 

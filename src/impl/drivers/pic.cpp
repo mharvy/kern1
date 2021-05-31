@@ -36,12 +36,12 @@ void PIC::init() {
 
     //outb(PIC1_DATA, a1);
     //outb(PIC2_DATA, a2);
-    outb(PIC1_DATA, 0xfb);
-    outb(PIC2_DATA, 0xff);
+    outb(PIC1_DATA, 0xFB);
+    outb(PIC2_DATA, 0xFF);
 }
 
 // Unmask the specific IRQ
-void PIC::enable_irq(uint8_t irq) {
+void PIC::enable_IRQ(uint8_t irq) {
     uint16_t port;
     uint8_t value;
 
@@ -57,7 +57,7 @@ void PIC::enable_irq(uint8_t irq) {
 }
 
 // Mask the specific IRQ
-void PIC::disable_irq(uint8_t irq) {
+void PIC::disable_IRQ(uint8_t irq) {
     uint16_t port;
     uint8_t value;
 
@@ -79,18 +79,18 @@ void PIC::send_EOI(uint8_t irq) {
     outb(PIC1_COMMAND, PIC_EOI);
 }
 
-uint16_t PIC::get_irq_reg(uint8_t ocw3) {
+uint16_t PIC::get_IRQ_reg(uint8_t ocw3) {
     outb(PIC1_COMMAND, ocw3);
     outb(PIC2_COMMAND, ocw3);
     return (inb(PIC2_COMMAND) << 8) | inb(PIC1_COMMAND);
 }
 
-uint16_t PIC::get_irr() {
-    return get_irq_reg(PIC_READ_IRR);
+uint16_t PIC::get_IRR() {
+    return get_IRQ_reg(PIC_READ_IRR);
 }
 
-uint16_t PIC::get_isr() {
-    return get_irq_reg(PIC_READ_ISR);
+uint16_t PIC::get_ISR() {
+    return get_IRQ_reg(PIC_READ_ISR);
 }
 
 bool PIC::is_enabled() {

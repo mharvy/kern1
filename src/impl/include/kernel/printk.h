@@ -6,6 +6,6 @@ int printk(const char *s, ...) {
     const char * c = s;
     while (*c != '\0')
         kputc(*(c++));
-    kputc('\n');
+    return 0;
 }
 
