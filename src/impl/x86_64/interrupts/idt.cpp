@@ -1,6 +1,7 @@
 #include "x86_64/interrupts/idt.h"
 #include "x86_64/exceptions/exception.h"
 #include "x86_64/print.h"
+#include "drivers/input/ps2keyboard.h"
 
 #include <stdint.h>
 
@@ -15,7 +16,21 @@ void set_trap_gate(IDTEntry * entry, void * func) {
     SET_IDT_ENTRY(entry, func);
     entry->selector = KERNEL_CS;
     entry->ist = 0x00;
-    entry->type_attr = 0x8f;  // Present, DPL=0, ss=0, gate type = 15 (trap gate)
+    if (func != nullptr)
+        entry->type_attr = 0x8F;  // Present, DPL=0, ss=0, gate type = 15
+    else
+        entry->type_attr = 0x0F;  // Not present
+    entry->zero = 0x00000000;
+}
+
+void set_interrupt_gate(IDTEntry * entry, void * func) {
+    SET_IDT_ENTRY(entry, func);
+    entry->selector = KERNEL_CS;
+    entry->ist = 0x00;
+    if (func != nullptr)
+        entry->type_attr = 0x8E; // Present, DPL=0, ss=0, gate type = 14
+    else
+        entry->type_attr = 0x0E;  // Not Present
     entry->zero = 0x00000000;
 }
 
@@ -25,12 +40,13 @@ IDT::IDT() {
     this->idt_desc.location = (uintptr_t)(this->table);
 
     // Exceptions
-    for (int i = 0x00; i < 0x20; i++)
+    for (int i = 0; i < NUM_EXCEPTIONS; i++)
         set_trap_gate(&this->table[i], exceptions[i]);
 
     // Interrupts
-    //for (int i = 0x20; i < 0xFF; i++)
-    //    set_interrupt_gate(this->table[i] , interrupts[i]);
+    //for (int i = 0x20; i < 0x2C; i++)
+    //    set_interrupt_gate(&this->table[i] , interrupts[i]);
+    set_interrupt_gate(&this->table[0x21], (void *)ps2keyboard_linkage);
 
     // System calls
     //set_trap_gate(this->table[0x80], syscall_linkage);

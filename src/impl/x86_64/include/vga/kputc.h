@@ -4,13 +4,13 @@
 
 #include <stdint.h>
 
-void newline() {
+inline void newline() {
     col = 0;
     if (++row >= NUM_ROWS)
         row--;
 }
 
-void shift_cursor() {
+inline void shift_cursor() {
     if (++col >= NUM_COLS) {
         col = 0;
         if (++row >= NUM_ROWS)
@@ -19,7 +19,7 @@ void shift_cursor() {
 }
 
 // Put character on VGA screen
-void kputc(char c) {
+inline void kputc(char c) {
     switch (c) {
         case '\n':
             newline();
