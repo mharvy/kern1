@@ -1,5 +1,5 @@
 #include "x86_64/exceptions/exception.h"
-#include "x86_64/print.h"
+#include "kernel/printk.h"
 #include "strings.h"
 
 void * exceptions[NUM_EXCEPTIONS] = {
@@ -18,23 +18,23 @@ void * exceptions[NUM_EXCEPTIONS] = {
     (void *)&stack_segment_fault,
     (void *)&general_protection_fault,
     (void *)&page_fault,
-    (void *)NULL,
+    (void *)nullptr,
     (void *)&floating_point_exception,
     (void *)&alignment_check,
     (void *)&machine_check,
     (void *)&simd_floating_point_exception,
     (void *)&virtualization_exception,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
-    (void *)NULL,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
+    (void *)nullptr,
     (void *)&security_exception,
-    (void *)NULL,
+    (void *)nullptr,
 };
 
 char * exception_messages[NUM_EXCEPTIONS] = {

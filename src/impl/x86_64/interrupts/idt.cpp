@@ -1,6 +1,5 @@
 #include "x86_64/interrupts/idt.h"
 #include "x86_64/exceptions/exception.h"
-#include "x86_64/print.h"
 #include "drivers/input/ps2keyboard.h"
 
 #include <stdint.h>

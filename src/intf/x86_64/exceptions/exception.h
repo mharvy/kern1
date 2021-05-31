@@ -9,8 +9,9 @@ void exception();                                   \
 
 #define EXCEPTION(exception, number, error_code)    \
 void exception() {                                  \
-    print_str("EXCEPTION: ");                       \
-    print_str(exception_messages[number]);\
+    printk("EXCEPTION: ");                          \
+    printk(exception_messages[number]);             \
+    printk("\n");                                   \
     while (1) {};                                   \
 }                                                   \
 
