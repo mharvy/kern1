@@ -4,8 +4,11 @@
 
 #include <stdint.h>
 
+#define PS2_KEYBOARD_IRQ 1
+#define PS2_KEYBOARD_PORT 0x60
+
 extern "C" void main_ps2keyboard_handler();
-extern "C" void ps2keyboard_linkage();
+extern "C" void main_ps2keyboard_linkage();
 
 class PS2Keyboard {
 private:

@@ -3,6 +3,7 @@
 #include "kernel/printk.h"
 #include "drivers/pic.h"
 #include "drivers/input/ps2keyboard.h"
+#include "drivers/rtc.h"
 
 IDT idt;
 PIC pic;
@@ -10,7 +11,7 @@ PIC pic;
 extern "C" void kernel_start() {
     int testing;
 
-    printk("Starting Kernel 1");
+    printk("Starting Kernel 1\n\n");
 
     printk("Initializing IDT... ");
     idt = IDT();
@@ -22,13 +23,15 @@ extern "C" void kernel_start() {
     pic.init();
     printk("Done\n");
 
-    printk("Initializing Key Board... ");
+    printk("Initializing KeyBoard... ");
     main_ps2keyboard = PS2Keyboard();
     main_ps2keyboard.init();
     printk("Done\n");
 
-    uint16_t irr = pic.get_IRR();
-    uint16_t isr = pic.get_ISR();
+    printk("Initializing RTC... ");
+    main_rtc = RTC();
+    main_rtc.init();
+    printk("Done\n");
 
     asm volatile (
             "sti"
@@ -37,11 +40,6 @@ extern "C" void kernel_start() {
             : "memory", "cc"
     );
     printk("Interrupts enabled\n");
-
-    bool a = pic.is_enabled();
-
-    irr = pic.get_IRR();
-    isr = pic.get_ISR();
 
     while (1) {}
 

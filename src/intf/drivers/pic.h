@@ -25,14 +25,13 @@
 #define PIC_READ_IRR 0x0a
 #define PIC_READ_ISR 0x0b
 
-#define PS2_KEYBOARD_IRQ 1
-#define PS2_KEYBOARD_PORT 0x60
-
 class PIC {
 private:
     uint8_t offset1;
     uint8_t offset2;
     uint16_t get_IRQ_reg(uint8_t ocw3);
+    uint8_t mask1;
+    uint8_t mask2;
 public:
     PIC();
     PIC(uint8_t offset1, uint8_t offset2);
