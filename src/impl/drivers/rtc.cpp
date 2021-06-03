@@ -31,9 +31,6 @@ void RTC::interrupt_handler() {
     int time = inb(CMOS_PORT);
     time = (time & 0x0F) + ((time / 16) * 10);
 
-    // For testing 
-    printk(" ");
-
     outb(RTC_PORT, REG_C);  // Register C must be read
     inb(CMOS_PORT);
 }

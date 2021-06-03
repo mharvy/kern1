@@ -2,6 +2,7 @@
 #include "x86_64/exceptions/exception.h"
 #include "drivers/input/ps2keyboard.h"
 #include "drivers/rtc.h"
+#include "drivers/pit.h"
 
 #include <stdint.h>
 
@@ -44,6 +45,7 @@ IDT::IDT() {
         set_trap_gate(&this->table[i], exceptions[i]);
 
     // Interrupts
+    set_interrupt_gate(&this->table[0x20], (void *)main_pit_linkage);
     set_interrupt_gate(&this->table[0x21], (void *)main_ps2keyboard_linkage);
     set_interrupt_gate(&this->table[0x28], (void *)main_rtc_linkage);
 

@@ -4,6 +4,7 @@
 #include "drivers/pic.h"
 #include "drivers/input/ps2keyboard.h"
 #include "drivers/rtc.h"
+#include "drivers/pit.h"
 
 IDT idt;
 PIC pic;
@@ -33,12 +34,12 @@ extern "C" void kernel_start() {
     main_rtc.init();
     printk("Done\n");
 
-    asm volatile (
-            "sti"
-            :
-            :
-            : "memory", "cc"
-    );
+    printk("Initializing PIT... ");
+    main_pit = PIT();
+    main_pit.init();
+    printk("Done\n");
+
+    asm volatile ("sti");
     printk("Interrupts enabled\n");
 
     while (1) {}
