@@ -1,17 +1,22 @@
-#include "drivers/pit.h"
+#include "drivers/timer/pit.h"
 #include "drivers/pic.h"
 #include "util/io.h"
 #include "kernel/printk.h"
 
 #include <stdint.h>
 
-PIT main_pit;
 
 void main_pit_handler() {
-    main_pit.interrupt_handler();
+    //main_pit.interrupt_handler();
+    PIT::get_instance().interrupt_handler();
 }
 
 PIT::PIT() {
+}
+
+PIT & PIT::get_instance() {
+    static PIT instance = PIT();
+    return instance;
 }
 
 void PIT::init() {
@@ -33,8 +38,5 @@ void PIT::set_freq(uint32_t freq) {
 
 void PIT::interrupt_handler() {
     pic.send_EOI(PIT_IRQ);
-
-    // Testing
-    printk("PIT");
 }
 

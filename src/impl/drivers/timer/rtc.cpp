@@ -1,17 +1,20 @@
-#include "drivers/rtc.h"
+#include "drivers/timer/rtc.h"
 #include "util/io.h"
 #include "drivers/pic.h"
 #include "kernel/printk.h"
 
 #include <stdint.h>
 
-RTC main_rtc;
-
 extern "C" void main_rtc_handler() {
-    main_rtc.interrupt_handler();
+    RTC::get_instance().interrupt_handler();
 }
 
 RTC::RTC() {
+}
+
+RTC & RTC::get_instance() {
+    static RTC instance = RTC();
+    return instance;
 }
 
 void RTC::init() {

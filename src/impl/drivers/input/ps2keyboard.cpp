@@ -4,15 +4,18 @@
 #include "vga/kputc.h"
 #include "util/io.h"
 
-PS2Keyboard main_ps2keyboard;
-
 extern "C" void main_ps2keyboard_handler() {
-    main_ps2keyboard.interrupt_handler();
+    PS2Keyboard::get_instance().interrupt_handler();
 }
 
 PS2Keyboard::PS2Keyboard() {
     scancode = Scancode();
     active = false;
+}
+
+PS2Keyboard & PS2Keyboard::get_instance() {
+    static PS2Keyboard instance = PS2Keyboard();
+    return instance;
 }
 
 void PS2Keyboard::init() {

@@ -17,15 +17,14 @@ private:
     uint64_t keys;
     bool shift_pressed = false;
     bool caps_on = false;
+    PS2Keyboard();
 
 public:
-    PS2Keyboard();
+    static PS2Keyboard & get_instance();
     void init();
     void interrupt_handler();
     void stop();
     void enable();
     uint64_t get_keys();
 };
-
-extern PS2Keyboard main_ps2keyboard;
 

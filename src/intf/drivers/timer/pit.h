@@ -19,13 +19,12 @@ extern "C" void main_pit_linkage();
 // Will only support channel 0 for now
 class PIT {
 private:
-public:
     PIT();
+public:
+    static PIT & get_instance();
     void init();
     void set_freq(uint32_t freq);
     void change_mode();
     void interrupt_handler();
 };
-
-extern PIT main_pit;
 

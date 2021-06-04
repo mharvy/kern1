@@ -2,7 +2,7 @@ ARCH = x86_64
 GCC_FLAGS = -I ./src/intf -I ./src/impl/include \
 	-I ./src/impl/$(ARCH)/include -ffreestanding \
     -mcmodel=large -mno-red-zone -mno-sse -mno-sse2 \
-	-g
+	-g -fno-threadsafe-statics
 LD_FLAGS = -ffreestanding -nostdlib -lgcc -n -g
 GCC_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++
 LD_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++

@@ -1,8 +1,8 @@
 #include "x86_64/interrupts/idt.h"
 #include "x86_64/exceptions/exception.h"
 #include "drivers/input/ps2keyboard.h"
-#include "drivers/rtc.h"
-#include "drivers/pit.h"
+#include "drivers/timer/rtc.h"
+#include "drivers/timer/pit.h"
 
 #include <stdint.h>
 

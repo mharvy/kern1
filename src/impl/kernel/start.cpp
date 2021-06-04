@@ -3,8 +3,8 @@
 #include "kernel/printk.h"
 #include "drivers/pic.h"
 #include "drivers/input/ps2keyboard.h"
-#include "drivers/rtc.h"
-#include "drivers/pit.h"
+#include "drivers/timer/rtc.h"
+#include "drivers/timer/pit.h"
 
 IDT idt;
 PIC pic;
@@ -25,18 +25,15 @@ extern "C" void kernel_start() {
     printk("Done\n");
 
     printk("Initializing KeyBoard... ");
-    main_ps2keyboard = PS2Keyboard();
-    main_ps2keyboard.init();
+    PS2Keyboard::get_instance().init();
     printk("Done\n");
 
     printk("Initializing RTC... ");
-    main_rtc = RTC();
-    main_rtc.init();
+    RTC::get_instance().init();
     printk("Done\n");
 
     printk("Initializing PIT... ");
-    main_pit = PIT();
-    main_pit.init();
+    PIT::get_instance().init();
     printk("Done\n");
 
     asm volatile ("sti");

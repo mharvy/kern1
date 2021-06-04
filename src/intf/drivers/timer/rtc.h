@@ -17,9 +17,10 @@ class RTC {
 private:
     uint32_t freq = 1024;
     uint32_t seconds;
+    RTC();
 
 public:
-    RTC();
+    static RTC & get_instance();
     void init();
     void interrupt_handler();
     void set_freq(uint32_t freq);
@@ -28,7 +29,4 @@ public:
     uint32_t read();
     uint32_t write();
 };
-
-extern RTC main_rtc;
-
 
