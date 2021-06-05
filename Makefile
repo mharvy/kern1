@@ -71,13 +71,17 @@ build: $(x86_64_ISO)
 
 .PHONY: run
 run: $(x86_64_ISO)
-	qemu-system-x86_64 -cdrom $(x86_64_ISO)
+	qemu-system-x86_64 -cpu qemu64 -cdrom $(x86_64_ISO) -smp cores=2
 
 .PHONY: debug
 debug: $(x86_64_ELF) $(x86_64_ISO)
-	qemu-system-x86_64 -s -S -cdrom $(x86_64_ISO)
+	qemu-system-x86_64 -s -S -cpu qemu64 -cdrom $(x86_64_ISO) -smp cores=2
 
 .PHONY: clean
 clean:
-	rm -r build dist
+	rm -r dist build
+	rm targets/x86_64/iso/boot/kernel.*
+
+
+
 
