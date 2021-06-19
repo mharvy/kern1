@@ -4,8 +4,8 @@ GCC_FLAGS = -I ./src/intf -I ./src/impl/include \
     -mcmodel=large -mno-red-zone -mno-sse -mno-sse2 \
 	-g -fno-threadsafe-statics
 LD_FLAGS = -ffreestanding -nostdlib -lgcc -n -g
-GCC_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++
-LD_PATH = ../cross-compiler/opt/cross/bin/$(ARCH)-elf-g++
+GCC_PATH = ../cross/bin/$(ARCH)-elf-g++
+LD_PATH = ../cross/bin/$(ARCH)-elf-g++
 x86_64_ISO = ./dist/x86_64/kernel.iso
 x86_64_BIN = ./dist/x86_64/kernel.bin
 x86_64_ELF = ./dist/x86_64/kernel.elf
