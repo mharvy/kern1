@@ -25,3 +25,25 @@ static inline void cpuid_string(uint32_t cmd, uint8_t out[]) {
     out[12] = '\0';
 }
 
+static inline bool cpu_has_msr() {
+    uint32_t regs[4];
+    cpuid(0x00000001U, regs);
+    return regs[3] & (1 << 5);
+}
+
+static inline void cpu_get_msr(uint32_t msr, uint32_t *lo, uint32_t *hi) {
+    asm volatile(
+            "rdmsr"
+            : "=a"(*lo), "=d"(*hi)
+            : "c"(msr)
+    );
+}
+
+static inline void cpu_set_msr(uint32_t msr, uint32_t lo, uint32_t hi) {
+    asm volatile(
+            "wrmsr"
+            :
+            : "a"(lo), "d"(hi), "c"(msr)
+    );
+}
+

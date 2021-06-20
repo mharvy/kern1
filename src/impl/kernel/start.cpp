@@ -56,6 +56,16 @@ extern "C" void kernel_start() {
     }
     printk("\n");
 
+    // Has an apic?
+    printk("  Has APIC?: ");
+    if (cpuid(0x80000001U, regs)) {
+        if (regs[3] & (1 << 9))
+            printk("yes");
+        else
+            printk("no");
+    }
+    printk("\n");
+
     printk("Initializing IDT... ");
     idt = IDT();
     idt.init();
