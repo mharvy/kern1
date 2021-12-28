@@ -68,6 +68,7 @@ $(x86_64_ISO): $(x86_64_BIN)
 
 .PHONY: build
 build: $(x86_64_ISO)
+	ctags --recurse=yes --exclude=.git --exclude=BUILD src
 
 .PHONY: run
 run: $(x86_64_ISO)
