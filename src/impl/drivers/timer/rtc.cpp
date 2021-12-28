@@ -42,14 +42,18 @@ void RTC::set_freq(uint32_t freq) {
 }
 
 uint32_t RTC::open() {
+    return 0;
 }
 
 uint32_t RTC::close() {
+    return 0;
 }
 
 uint32_t RTC::read() {
+    return 0;
 }
 
 uint32_t RTC::write() {
+    return 0;
 }
 

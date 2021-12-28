@@ -23,7 +23,7 @@ uintptr_t APIC::cpu_get_apic_base() {
     uint32_t eax, edx;
     cpu_get_msr(IA32_APIC_BASE_MSR, &eax, &edx);
 
-    return (eax & 0xFFFFF000) | ((edx & 0x0F) << 32);
+    return (eax & 0xFFFFF000) | ((edx & 0x0000000F) << 31);
 }
 
 APIC::APIC() {

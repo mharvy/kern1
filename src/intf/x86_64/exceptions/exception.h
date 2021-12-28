@@ -16,7 +16,7 @@ void exception() {                                  \
 }                                                   \
 
 extern void * exceptions[];
-extern char * exception_messages[];
+extern const char * exception_messages[];
 
 EXCEPTION_DECLARE(divide_by_zero);
 EXCEPTION_DECLARE(debug);

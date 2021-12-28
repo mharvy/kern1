@@ -37,7 +37,7 @@ void * exceptions[NUM_EXCEPTIONS] = {
     (void *)nullptr,
 };
 
-char * exception_messages[NUM_EXCEPTIONS] = {
+const char * exception_messages[NUM_EXCEPTIONS] = {
     "Divide by Zero", "Debug", "NMI", "Breakpoint", "Overflow", 
     "Bound Range Exceeded", "Invalid Opcode", "Device Not Available",
     "Double Fault", "Coprocessor Segment Overrun", "Invalid TSS", 

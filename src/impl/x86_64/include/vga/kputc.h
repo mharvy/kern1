@@ -26,7 +26,6 @@ inline void kputc(char c) {
             break;
         default:
             *(char *)(VIDEO_MEM + ((NUM_COLS * row + col) << 1)) = c;
-            shift_cursor();
             break;
     }
 }
